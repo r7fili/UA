@@ -1,0 +1,65 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title> WebPage </title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="background.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Div para butoes das tabs-->
+    <div id="tabs" style="position: absolute;"></div>
+
+    <!-- Div para mostrar conteudo da tab-->
+    <div id="content" style="width: 100%; height: 100%;"></div>
+
+    <script>
+        var tabs = ["login", "regist"];
+
+        var tabsDiv = document.getElementById("tabs");
+        for (let i = 0; i < tabs.length; i++) {
+            // Colocar primeira letra da tab em uppercase
+            var name = tabs[i].charAt(0).toUpperCase() + tabs[i].slice(1);
+
+            // Adicionar HTML ao tabsDiv
+            tabsDiv.innerHTML += `<button type="button" class="btn btn-primary btn-lg" onclick="displayTab('${tabs[i]}')">${name}</button>`;
+        }
+
+        // Funcao para mostrar tab pelo id da divisao
+        function displayTab(name) {
+            var content = document.getElementById("content");
+            content.innerHTML = readFile(name + ".html");
+        }
+        //displayTab("login");
+
+        // Chamar rota /sum com os dados {a: 1, b: 2}, e mostrar o resultado
+        var response = requestJSON("http://localhost:8080/sum", "POST", {
+            a: 1,
+            b: 2
+        });
+        console.log(response);
+
+        // Chamar metodo da API por exemplo do servidor em python.
+        // Assume que vai ser enviados dados em JSON e recebidos em JSON de volta
+        function requestJSON(route, method, data) {
+            var xhr = new XMLHttpRequest();
+            xhr.open(method, route, false);
+            xhr.setRequestHeader("content-type", "application/json");
+            xhr.send(JSON.stringify(data));
+            var response = xhr.responseText;
+            return JSON.parse(response);
+        }
+
+        // Read file as text
+        function readFile(file) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", file, false);
+            xhr.send();
+            return xhr.responseText;
+        }
+    </script>
+</body>
+
+</html>
