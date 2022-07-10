@@ -1,20 +1,41 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+from PIL import Image, ImageDraw, ImageFont
+import io
+import os
+import sqlite3 as sql
+from platform import architecture
+import cherrypy
+import base64
+from Crypto.Cipher import AES
+import requests 
+from cryptography.fernet import Fernet
+import json
+import hashlib
 
-app = Flask(__name__)
-CORS(app)
+SESSION_KEY = 'very secret and unguessable'
 
-# Rota de teste que recebe dados em JSON e envia de volta
-@app.route("/test", methods=['POST'])
-def test():
-    received = request.json
-    return jsonify(received)
+baseDir = os.path.dirname(os.path.abspath(__file__))
 
-# Segunda rota de teste que soma dois números
-@app.route("/sum", methods=['POST'])
-def sum():
-    received = request.json
-    return jsonify({'result': received['a'] + received['b']})
+# config = {
+#     "/": {          "tools.staticdir.root": baseDir },
 
-if __name__ == '__main__':
-    app.run(host= '127.0.0.1', port=10014, debug=True)
+#     "/html": {      "tools.staticdir.on": True,
+#                     "tools.staticdir.dir": "html" },
+#     "/js": {        "tools.staticdir.on": True,
+#                     "tools.staticdir.dir": "js" },
+#     "/css": {       "tools.staticdir.on": True,
+#                     "tools.staticdir.dir": "css" },
+#     "/images": {    "tools.staticdir.on": True,
+#                     "tools.staticdir.dir": "images" },
+# }
+
+class Root(object):
+    
+    @cherrypy.expose
+    def index(self):
+        return open("index.html")
+
+
+#socket port
+cherrypy.config.update({'server.socket_port': 10014,})
+
+cherrypy.quickstart(Root(), "/")
