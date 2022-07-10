@@ -289,3 +289,23 @@ main {
 .mobile-menu.active .line3 {
     transform: rotate(45deg) translate(-5px, -7px);
 }
+
+.conteiner{
+    width: 500px;
+    margin: auto;
+  }
+
+  .abouts{
+  position: absolute;
+  bottom: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%) ;
+  height: 100px;
+  text-align: center;
+  background-color: rgba(0, 0,0, 0.5); 
+  padding: 20px;
+  color: white;
+  height: 200px;
+  border-radius: 10px;
+}
